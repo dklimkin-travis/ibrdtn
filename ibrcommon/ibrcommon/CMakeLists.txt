@@ -15,6 +15,7 @@ set(ibrcommon_sources
     link/LinkEvent.cpp
     link/LinkManager.cpp
     link/LinkMonitor.cpp
+    link/PosixLinkManager.cpp
     net/socket.cpp
     net/socketstream.cpp
     net/stopandwait.cpp
@@ -38,7 +39,8 @@ set(sslsupport_sources
     ssl/CipherStream.cpp
     ssl/HashStream.cpp
     ssl/HMacStream.cpp
-    ssl/InputCipherStream.cpp
+# Can't link.
+#    ssl/InputCipherStream.cpp
     ssl/iostreamBIO.cpp
     ssl/MD5Stream.cpp
     ssl/RSASHA256Stream.cpp
@@ -46,8 +48,14 @@ set(sslsupport_sources
     ssl/TLSStream.cpp
     ssl/XORStream.cpp
     ssl/gcm/gcm.cpp
+    ssl/gcm/gcm_aes.c
     ssl/gcm/gf128mul.cpp
 )
+
+# We need pthreads.
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+set(LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
 
 # Choose an implementation for netlink manager.
 option(Netlink "Build with netlink library [default=ON]" ON)
@@ -56,30 +64,28 @@ if (WIN32)
   list(APPEND ibrcommon_sources link/Win32LinkManager.cpp)
 else()
   if (Netlink)
-    pkg_search_module(PC_LIBNL libnl-3.0)
-    if(PKG_CONFIG_FOUND)
-      add_definitions(-DHAVE_LIBNL3=1)
+    pkg_check_modules(PC_LIBNL libnl-3.0 libnl-route-3.0)
+    if(PC_LIBNL_FOUND)
+      add_definitions(-D HAVE_LIBNL3)
       set(HAS_NETLINK 1)
     else()
       pkg_search_module(PC_LIBNL libnl-2.0)
-      if(PKG_CONFIG_FOUND)
-        add_definitions(-DHAVE_LIBNL2=1)
+      if(PC_LIBNL_FOUND)
+        add_definitions(-D HAVE_LIBNL2)
         set(HAS_NETLINK 1)
       else()
         pkg_search_module(PC_LIBNL libnl-1)
-        if(PKG_CONFIG_FOUND)
-          add_definitions(-DHAVE_LIBNL=1)
+        if(PC_LIBNL_FOUND)
+          add_definitions(-D HAVE_LIBNL)
           set(HAS_NETLINK 1)
         endif()
       endif()
     endif()
   endif ()
   if (HAS_NETLINK)
-    message(STATUS "Building with libnl-" ${PC_LIBNL_VERSION})
     include_directories("${PC_LIBNL_INCLUDE_DIRS}")
     list(APPEND ibrcommon_sources link/NetLinkManager.cpp)
-  else()
-    list(APPEND ibrcommon_sources link/PosixLinkManager.cpp)
+    list(APPEND LIBRARIES ${PC_LIBNL_LIBRARIES})
   endif()
 endif()
 
@@ -98,9 +104,9 @@ endif()
 option(Openssl "Build with openssl support [default=OFF]" OFF)
 
 if (Openssl)
-  pkg_search_module(OPENSSL REQUIRED openssl)
-  message(STATUS "Building with openssl-" ${OPENSSL_VERSION})
+  pkg_check_modules(OPENSSL REQUIRED libssl libcrypto)
   list(APPEND ibrcommon_sources ${sslsupport_sources})
+  list(APPEND LIBRARIES ${OPENSSL_LIBRARIES})
 endif()
 
 # Enable/disable xml
@@ -129,4 +135,7 @@ configure_file(config.h.cmake ibrcommon/config.h COPYONLY)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 # build ibrcommon as static lib.
-add_library(ibrcommon MODULE ${ibrcommon_sources})
+add_library(ibrcommon SHARED ${ibrcommon_sources})
+target_link_libraries(ibrcommon ${LIBRARIES})
+
+install(TARGETS ibrcommon LIBRARY DESTINATION lib)

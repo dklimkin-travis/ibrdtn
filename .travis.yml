@@ -3,7 +3,7 @@ language: cpp
 env:
   global:
     - MAKEFLAGS="-j 2"
-    - CMAKE_OPTS="-DNetlink=ON -DOpenssl=ON"
+    - CMAKE_OPTS="-DNetlink=ON -DOpenssl=ON -DTests=ON"
 
 matrix:
   include:
@@ -16,19 +16,20 @@ addons:
     - build-essential
     - libcppunit-dev
     - libnl-3-dev
-#    - libnl-cli-3-dev
-#    - libnl-genl-3-dev
-#    - libnl-nf-3-dev
-#    - libnl-route-3-dev
+    - libnl-route-3-dev
     - libvmime-dev
 
 before_install:
   - pip install --user cpp-coveralls
 
 before_script:
-  - mkdir .compile && cd .compile
+  - set -e
+  - mkdir .compile
 
 script:
+  - pushd .compile
   - cmake ${CMAKE_OPTS} ..
   - make
-#   && make check
+  - popd && pushd ibrcommon/tests
+  - ../../.compile/ibrcommon/tests/ibrcommon_test
+  - popd
