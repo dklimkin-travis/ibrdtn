@@ -3,7 +3,7 @@ language: cpp
 env:
   global:
     - MAKEFLAGS="-j 2"
-    - CMAKE_OPTS="-DNetlink=ON -DOpenssl=ON -DTests=ON"
+    - CMAKE_OPTS="-DNetlink=ON -DOpenssl=ON -DTests=ON -DDtnSec=ON -DLowpan=ON"
 
 matrix:
   include:
@@ -17,10 +17,10 @@ addons:
     - libcppunit-dev
     - libnl-3-dev
     - libnl-route-3-dev
-    - libvmime-dev
+    - libnl-genl-3-dev
 
 before_install:
-  - pip install --user cpp-coveralls
+#  - pip install --user cpp-coveralls
 
 before_script:
   - set -e

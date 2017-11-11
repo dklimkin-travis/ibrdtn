@@ -54,58 +54,37 @@ set(sslsupport_sources
 # We need pthreads.
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
-set(LIBRARIES ${CMAKE_THREAD_LIBS_INIT})
+set(IBRCOMMON_LIBS ${CMAKE_THREAD_LIBS_INIT})
 
 # Choose an implementation for netlink manager.
 option(Netlink "Build with netlink library [default=ON]" ON)
 
 if (WIN32)
   list(APPEND ibrcommon_sources link/Win32LinkManager.cpp)
-else()
-  if (Netlink)
-    pkg_check_modules(PC_LIBNL libnl-3.0 libnl-route-3.0)
-    if(PC_LIBNL_FOUND)
-      add_definitions(-D HAVE_LIBNL3)
-      set(HAS_NETLINK 1)
-    else()
-      pkg_search_module(PC_LIBNL libnl-2.0)
-      if(PC_LIBNL_FOUND)
-        add_definitions(-D HAVE_LIBNL2)
-        set(HAS_NETLINK 1)
-      else()
-        pkg_search_module(PC_LIBNL libnl-1)
-        if(PC_LIBNL_FOUND)
-          add_definitions(-D HAVE_LIBNL)
-          set(HAS_NETLINK 1)
-        endif()
-      endif()
-    endif()
-  endif ()
-  if (HAS_NETLINK)
-    include_directories("${PC_LIBNL_INCLUDE_DIRS}")
-    list(APPEND ibrcommon_sources link/NetLinkManager.cpp)
-    list(APPEND LIBRARIES ${PC_LIBNL_LIBRARIES})
-  endif()
 endif()
 
-# Enable/disable lowpan.
-option(Lowpan "Build with lowpan support [default=OFF]" OFF)
+if (HAS_NETLINK)
+  include_directories("${PC_LIBNL_INCLUDE_DIRS}")
+  list(APPEND ibrcommon_sources link/NetLinkManager.cpp)
+  list(APPEND IBRCOMMON_LIBS ${PC_LIBNL_LIBRARIES})
+endif()
 
 if (Lowpan)
   message(STATUS "Building with lowpan")
-  if (NOT(HAS_NETLINK))
+  if(NOT HAS_NETLINK)
     message(SEND_ERROR "Netlink is required for lowpan support")
   endif()
-  list(APPEND ibrcommon_sources net/lowpansocket.cpp net/lowpanstream.cpp)
+  list(APPEND ibrcommon_sources
+      net/lowpansocket.cpp
+      net/lowpanstream.cpp
+      link/nl_policy.c
+  )
 endif()
-
-# Enable/disable openssl
-option(Openssl "Build with openssl support [default=OFF]" OFF)
 
 if (Openssl)
   pkg_check_modules(OPENSSL REQUIRED libssl libcrypto)
   list(APPEND ibrcommon_sources ${sslsupport_sources})
-  list(APPEND LIBRARIES ${OPENSSL_LIBRARIES})
+  list(APPEND IBRCOMMON_LIBS ${OPENSSL_LIBRARIES})
 endif()
 
 # Enable/disable xml
@@ -116,11 +95,8 @@ if (Xml)
   message(STATUS "Building with libxml-" ${LIBXML2_VERSION})
   list(APPEND ibrcommon_sources xml/XMLStreamReader.cpp xml/XMLStreamWriter.cpp)
   include_directories("${LIBXML2_INCLUDE_DIRS}")
+  list(APPEND IBRCOMMON_LIBS ${LIBXML2_LIBRARIES})
 endif()
-
-# TODO: implement and test HAVE_FEATURES_H
-
-# TODO: implement and test HAVE_MACH_MACH_TIME_H
 
 # TODO: implement and test HAVE_SYSLOG_H
 #  list(APPEND ibrcommon_sources SyslogStream.cpp)
@@ -129,12 +105,11 @@ endif()
 # TODO: find out where MCAST_JOIN_GROUP can come from.
 # TODO: find out where MCAST_LEAVE_GROUP can come from.
 
-# Generate a dummy config.h not used with CMake.
-configure_file(config.h.cmake ibrcommon/config.h COPYONLY)
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+# Generate dummy configs, not used with CMake.
+file(WRITE config.h "/* cmake is used. */")
+file(WRITE ibrcommon.h "/* cmake is used. */")
 
-# build ibrcommon as static lib.
 add_library(ibrcommon SHARED ${ibrcommon_sources})
-target_link_libraries(ibrcommon ${LIBRARIES})
+target_link_libraries(ibrcommon ${IBRCOMMON_LIBS})
 
 install(TARGETS ibrcommon LIBRARY DESTINATION lib)
