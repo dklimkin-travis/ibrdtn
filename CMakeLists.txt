@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.2)
 
-SET(CMAKE_CXX_FLAGS_RELEASE "-O3")
-SET(CMAKE_CXX_FLAGS_DEBUG  "-O0 -ggdb")
+SET(CMAKE_CXX_FLAGS_RELEASE "-O2 -pipe")
+SET(CMAKE_CXX_FLAGS_DEBUG  "-O0 -ggdb -pipe")
 
 option(Debug "Build for debugging [default=OFF]" OFF)
 

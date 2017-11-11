@@ -11,7 +11,6 @@ set(ibrcommon_sources
     data/ConfigFile.cpp
     data/File.cpp
     data/iobuffer.cpp
-    link/CompatLinkManager.cpp
     link/LinkEvent.cpp
     link/LinkManager.cpp
     link/LinkMonitor.cpp
