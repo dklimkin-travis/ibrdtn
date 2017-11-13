@@ -60,6 +60,7 @@ tcpstreamtest::StreamChecker::StreamChecker(const int port, const int chars, con
  : _error(false), _chars(chars), _conns(conns)
 {
 	if (ibrcommon::basesocket::hasSupport(AF_INET6)) {
+		std::cout << "hasSupport(AF_INET6) is TRUE\n";
 		ibrcommon::vaddress addr6(ibrcommon::vaddress::VADDR_LOCALHOST, port, AF_INET6);
 		_sockets.add(new ibrcommon::tcpserversocket(addr6, 5));
 	}
@@ -67,7 +68,12 @@ tcpstreamtest::StreamChecker::StreamChecker(const int port, const int chars, con
 	ibrcommon::vaddress addr4(ibrcommon::vaddress::VADDR_LOCALHOST, port, AF_INET);
 	_sockets.add(new ibrcommon::tcpserversocket(addr4, 5));
 
-	_sockets.up();
+	try {
+		_sockets.up();
+	} catch (const ibrcommon::socket_exception &e) {
+		std::cout << "Exception: " << e.what() << std::endl;
+		throw;
+	}
 }
 
 tcpstreamtest::StreamChecker::~StreamChecker()
