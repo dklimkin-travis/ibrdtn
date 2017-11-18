@@ -3,7 +3,7 @@ language: cpp
 env:
   global:
     - MAKEFLAGS="-j 2"
-    - CMAKE_OPTS="-DNetlink=ON -DOpenssl=ON -DTests=ON -DDtnSec=ON -DLowpan=ON"
+    - CMAKE_OPTS="-DNetlink=ON -DOpenssl=ON -DTests=ON -DDtnSec=ON -DLowpan=ON -DEnableTls=ON -DCompression=ON"
 
 matrix:
   include:
@@ -32,4 +32,9 @@ script:
   - make
   - popd && pushd ibrcommon/tests
   - ../../.compile/ibrcommon/tests/ibrcommon_test
+  - popd && pushd ibrdtn/ibrdtn/tests
+  - ../../../.compile/ibrdtn/ibrdtn/tests/ibrdtn_test
+  - popd && pushd ibrdtn/daemon/tests
+  - ../../../.compile/ibrdtn/daemon/tests/dtnd_test
+  - ../../../.compile/ibrdtn/daemon/tests/dtnd_unittest
   - popd

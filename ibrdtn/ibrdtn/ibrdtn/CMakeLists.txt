@@ -1,4 +1,5 @@
 file(WRITE config.h "/* cmake is used. */")
+file(WRITE ibrdtn.h "/* cmake is used. */")
 
 set(ibrdtn_sources
     api/Client.cpp
@@ -15,7 +16,6 @@ set(ibrdtn_sources
     data/BundleSet.cpp
     data/BundleSetImpl.cpp
     data/BundleString.cpp
-
     data/CustodySignalBlock.cpp
     data/Dictionary.cpp
     data/DTNTime.cpp
@@ -61,17 +61,15 @@ if(DtnSec)
   if(NOT Openssl)
     message(SEND_ERROR "Bundle Security Protocol requires OpenSSL enabled")
   endif()
-  message(STATUS "Bundle Security Protocol support is enabled")
+  message(STATUS "Bundle Security Protocol support enabled")
   list(APPEND ibrdtn_sources ${secext_sources})
 else()
-  message(STATUS "Warning: Bundle Security Protocol support is disabled")
+  message(STATUS "Warning: Bundle Security Protocol support disabled")
 endif()
 
-option(Compression "Enable compressed bundles" OFF)
-
 if(Compression)
-  message(STATUS "Bundle compression support is enabled")
   list(APPEND ibrdtn_sources data/CompressedPayloadBlock.cpp)
+  list(APPEND IBRDTN_LIBS ${ZLIB_LIBRARIES})
 endif()
 
 add_library(ibrdtn SHARED ${ibrdtn_sources})
