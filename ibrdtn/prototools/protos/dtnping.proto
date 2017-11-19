@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package dtn.tools;
+
+message DtnPing {
+  int32 seq_id = 1;
+}

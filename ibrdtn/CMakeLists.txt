@@ -38,3 +38,12 @@ endif()
 add_subdirectory("ibrdtn")
 add_subdirectory("daemon")
 add_subdirectory("tools")
+
+if (EnableGrpc)
+  set(protobuf_MODULE_COMPATIBLE TRUE)
+  # Protobuf
+  find_package(protobuf REQUIRED)
+  INCLUDE_DIRECTORIES(${PROTOBUF_INCLUDE_DIRS})
+
+  add_subdirectory("prototools")
+endif()
