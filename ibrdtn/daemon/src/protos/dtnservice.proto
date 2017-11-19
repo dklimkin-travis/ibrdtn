@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package dtn.api;
+
+import "google/protobuf/any.proto";
+
+service DtnService {
+  // Synchronous methods.
+  rpc SendBundle(DtnSendRequest) returns (DtnSendResponse);
+  rpc PollBundle(DtnPollRequest) returns (DtnPollResponse);
+
+  // Streamed methods.
+//  rpc DtnConnect(stream DtnPollRequest) returns (stream DtnPollResponse);
+}
+
+// Bundle priority.
+enum Priority {
+  BULK = 0;
+  NORMAL = 1;
+  EXPEDITED = 2;
+  RESERVED = 3;    // Don't use, reserved for future use.
+}
+
+message DtnSendRequest {
+  // Src ID. Important for getting ACKs.
+  string client_id = 1;
+
+  // Destination URL.
+  string destination_url = 2;
+
+  // Payload contents. Check for max and recommended sizes.
+  google.protobuf.Any payload = 3;
+
+  // Time to live in seconds.
+  int32 ttl = 4;
+
+  Priority priority = 5;
+
+  // Bundle options.
+  bool group_destination = 6;
+  bool request_encrypt = 7;
+  bool request_sign = 8;
+  bool request_compress = 9;
+  bool request_custody = 10;
+  string custodian_url = 11;
+}
+
+message DtnSendResponse {
+  // TODO this should be enum
+  bool success = 1;
+  // TODO
+  string bundle_id = 2;
+}
+
+message DtnPollRequest {
+  string client_id = 1;
+// Maybe  int32 timeout = 2;
+}
+
+message DtnPollResponse {
+  string source_url = 1;
+  string reportto_url = 9;
+
+  string bundle_id = 2;
+
+  string custodian_url = 3;
+  int64 expire_time = 4;
+  int64 life_time = 8;
+  int32 hop_count = 5;
+
+  Priority priority = 6;
+// TODO flags
+// TODO one_of these
+  google.protobuf.Any payload = 7;
+// DtnDeliveryReceipt 3;
+}

@@ -17,6 +17,14 @@ if (EnableTls)
   message(STATUS "TLS support enabled")
 endif()
 
+option(EnableGrpc "Enable gRPC API" OFF)
+if (EnableGrpc)
+  add_definitions(-DPROTO_API_SERVER=1)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
+  message(STATUS "gRPC API support enabled")
+  message(STATUS "Note: gRPC module requires C++14 support.")
+endif()
+
 add_subdirectory("src")
 
 if(Tests)

@@ -166,8 +166,17 @@ if (DtnDht)
   add_definitions(-DWITH_DHT_NAMESERVICE=1)
 endif()
 
+set(DTND_LIBRARIES ibrcommon ibrdtn)
+
+if (EnableGrpc)
+  add_subdirectory("protos")
+  list(APPEND dtnd_lib_sources protoapi/ProtoServer.cpp)
+  list(APPEND DTND_LIBRARIES proto_lib)
+  include_directories(${CMAKE_CURRENT_BINARY_DIR})
+endif()
+
 add_library(dtnd_lib STATIC ${dtnd_lib_sources})
-target_link_libraries(dtnd_lib ibrcommon ibrdtn)
+target_link_libraries(dtnd_lib ${DTND_LIBRARIES})
 
 add_executable(dtnd ${dtnd_sources})
 target_link_libraries(dtnd dtnd_lib)

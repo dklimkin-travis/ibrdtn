@@ -127,6 +127,11 @@
 #include "net/TransferCompletedEvent.h"
 #include "net/ConnectionEvent.h"
 
+// gRPC API.
+#ifdef PROTO_API_SERVER
+#include "protoapi/ProtoServer.h"
+#endif
+
 #define UNIT_MB * 1048576
 
 namespace dtn
@@ -1322,6 +1327,12 @@ namespace dtn
 			// add file monitor
 #ifdef HAVE_SYS_INOTIFY_H
 			FileMonitor *fm = NULL;
+#endif
+
+#ifdef PROTO_API_SERVER
+			auto apiconf = conf.getAPIInterface();
+			auto* protoServer = new dtn::api::ProtoServer("0.0.0.0", apiconf.port + 42); // TODO: configure interface and port.
+			_components[RUNLEVEL_NETWORK].push_back(protoServer);
 #endif
 
 			// create the convergence layers
