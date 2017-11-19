@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 
-project (ibrdtn)
+project (dtnd)
 
 include_directories("${CMAKE_SOURCE_DIR}/ibrdtn/daemon/src")
 

@@ -37,4 +37,4 @@ endif()
 
 add_subdirectory("ibrdtn")
 add_subdirectory("daemon")
-#add_subdirectory("tools")
+add_subdirectory("tools")
