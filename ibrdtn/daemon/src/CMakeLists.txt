@@ -170,7 +170,11 @@ set(DTND_LIBRARIES ibrcommon ibrdtn)
 
 if (EnableGrpc)
   add_subdirectory("protos")
-  list(APPEND dtnd_lib_sources protoapi/ProtoServer.cpp)
+  list(APPEND dtnd_lib_sources
+      protoapi/ProtoServer.cpp
+      protoapi/ProtoConnection.cpp
+      protoapi/RegistrationManager.cpp
+  )
   list(APPEND DTND_LIBRARIES proto_lib)
   include_directories(${CMAKE_CURRENT_BINARY_DIR})
 endif()

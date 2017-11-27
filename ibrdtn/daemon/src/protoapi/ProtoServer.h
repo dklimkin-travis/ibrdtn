@@ -14,12 +14,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#ifndef IBRDTN_DAEMON_SRC_API_PROTO_CLIENT_H_
-#define IBRDTN_DAEMON_SRC_API_PROTO_CLIENT_H_
+#ifndef IBRDTN_DAEMON_SRC_PROTOAPI_PROTOSERVER_H_
+#define IBRDTN_DAEMON_SRC_PROTOAPI_PROTOSERVER_H_
 
 #include "protos/dtnservice.grpc.pb.h"
 
 #include "Component.h"
+#include "core/EventReceiver.h"
+#include "protoapi/RegistrationManager.h"
+#include "routing/QueueBundleEvent.h"
 
 #include <ibrdtn/data/PrimaryBlock.h>
 
@@ -30,41 +33,50 @@ using ::grpc::Status;
 
 namespace dtn
 {
-    namespace api
-    {
-	class ProtoServer final : public dtn::api::DtnService::Service, public dtn::daemon::IndependentComponent
-	{
-	public:
-	    ProtoServer(const std::string& address, const int port);
+namespace api
+{
 
-	    // ProtoServer is neither copyable nor movable.
-	    ProtoServer(const ProtoServer &) = delete;
-	    ProtoServer &operator=(const ProtoServer &) = delete;
+class ProtoServer final : public DtnService::Service, public dtn::daemon::IndependentComponent, public dtn::core::EventReceiver<dtn::routing::QueueBundleEvent>
+{
+public:
+    ProtoServer(const std::string& address, const int port);
 
-	    // TODO: should be movable going forward.
+    // ProtoServer is neither copyable nor movable.
+    ProtoServer(const ProtoServer &) = delete;
+    ProtoServer &operator=(const ProtoServer &) = delete;
 
-	    virtual const std::string getName() const override;
-	    virtual void __cancellation() throw () {};
-	    virtual void componentUp() throw ();
-	    virtual void componentRun() throw ();
-	    virtual void componentDown() throw ();
+    // TODO: should be movable going forward.
 
-	    Status SendBundle(::grpc::ServerContext* context, const DtnSendRequest* request, DtnSendResponse* reply) override;
-		Status PollBundle(::grpc::ServerContext* context, const DtnPollRequest* request, DtnPollResponse* response) override;
+    virtual const std::string getName() const override;
+    virtual void __cancellation() throw () override {};
+    virtual void componentUp() throw () override;
+    virtual void componentRun()  throw () override;
+    virtual void componentDown() throw () override;
 
-	private:
-	    static const std::string TAG;
-		static const size_t MAX_PROTO_MESSAGE_SIZE = 64*1024*1024; 	// 64Mb
+    Status SendBundle(::grpc::ServerContext* context, const DtnSendRequest* request, DtnSendResponse* reply) override;
+	Status PollBundle(::grpc::ServerContext* context, const DtnPollRequest* request, DtnPollResponse* response) override;
 
-	    const std::string _serverAddress;
-	    std::unique_ptr<::grpc::Server> _server;
+	Status Subscribe(::grpc::ServerContext* context, const DtnSubscribeRequest* request, ::grpc::ServerWriter<DtnPollResponse>* writer) override;
+	void raiseEvent(const dtn::routing::QueueBundleEvent &queued) throw ();
 
-		Status validateSendRequest(const DtnSendRequest& request) const;
+private:
+	static const std::string TAG;
+	static const size_t MAX_PROTO_MESSAGE_SIZE = 64*1024*1024; 	// 64Mb
 
-		static dtn::api::Priority fromBundlePriority(const dtn::data::PrimaryBlock::PRIORITY &rhs);
-	};
+	const std::string _serverAddress;
+	std::unique_ptr<::grpc::Server> _server;
+	std::unique_ptr<RegistrationManager> _registrator;
+
+	Status validateSendRequest(const DtnSendRequest& request) const;
+
+	static dtn::api::Priority fromBundlePriority(const dtn::data::PrimaryBlock::PRIORITY &rhs);
+
+	::grpc::Status pushBundle(DtnWriter *pWriter, const data::MetaBundle& bundle);
+
+	static dtn::data::EID generateSourceEID(const DtnSendRequest& request);
+};
 
 } // namespace api
 } // namespace dtn
 
-#endif  // IBRDTN_DAEMON_SRC_API_PROTO_CLIENT_H_
+#endif  // IBRDTN_DAEMON_SRC_PROTOAPI_PROTOSERVER_H_

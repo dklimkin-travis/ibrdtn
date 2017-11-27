@@ -4,4 +4,5 @@ package dtn.tools;
 
 message DtnPing {
   int32 seq_id = 1;
+  bytes data = 2;
 }

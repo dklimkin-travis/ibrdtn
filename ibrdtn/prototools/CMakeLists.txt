@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.2)
 
 project(dtnprotosend)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 11)
 
 # include dirs with generated files.
 include_directories("${CMAKE_BINARY_DIR}/ibrdtn/daemon/src")
@@ -21,7 +21,11 @@ if (Compression)
   list(APPEND PROTOTOOL_LIBS ${ZLIB_LIBRARIES})
 endif()
 
+set(PROTOTOOL_BASE_SRC dtnprototool.cpp)
+add_library(PROTOTOOL_BASE STATIC ${PROTOTOOL_BASE_SRC})
+list(APPEND PROTOTOOL_LIBS ${PROTOTOOL_BASE})
+
 foreach(PROTOTOOL ${PROTOTOOL_ALL})
-  add_executable(${PROTOTOOL} "${PROTOTOOL}.cpp")
+  add_executable(${PROTOTOOL} "${PROTOTOOL}.cpp" ${PROTOTOOL_BASE_SRC})
   target_link_libraries(${PROTOTOOL} ${PROTOTOOL_LIBS})
 endforeach()

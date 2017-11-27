@@ -10,15 +10,16 @@ service DtnService {
   rpc PollBundle(DtnPollRequest) returns (DtnPollResponse);
 
   // Streamed methods.
-//  rpc DtnConnect(stream DtnPollRequest) returns (stream DtnPollResponse);
+  rpc Subscribe(DtnSubscribeRequest) returns (stream DtnPollResponse);
 }
 
 // Bundle priority.
 enum Priority {
-  BULK = 0;
-  NORMAL = 1;
-  EXPEDITED = 2;
-  RESERVED = 3;    // Don't use, reserved for future use.
+  UNSPECIFIED = 0;
+  BULK = 1;
+  NORMAL = 2;
+  EXPEDITED = 3;
+  RESERVED = 4;    // Don't use, reserved for future use.
 }
 
 message DtnSendRequest {
@@ -70,7 +71,13 @@ message DtnPollResponse {
 
   Priority priority = 6;
 // TODO flags
-// TODO one_of these
+
   google.protobuf.Any payload = 7;
-// DtnDeliveryReceipt 3;
+}
+
+message DtnSubscribeRequest {
+  // false: single destination, exclusive.
+  // true:  group destination, join group.
+  bool group_destination = 1;
+  string group = 2;
 }
