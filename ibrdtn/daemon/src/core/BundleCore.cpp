@@ -766,9 +766,11 @@ namespace dtn
 							bundle.set(dtn::data::PrimaryBlock::DTNSEC_REQUEST_ENCRYPT, false);
 						} catch (const dtn::security::SecurityManager::KeyMissingException&) {
 							// encryption requested, but no key is available
-							IBRCOMMON_LOGGER_TAG(TAG, warning) << "No key available for encrypt process." << IBRCOMMON_LOGGER_ENDL;
+							IBRCOMMON_LOGGER_TAG(TAG, error) << "No key available for encrypt process." << IBRCOMMON_LOGGER_ENDL;
+							throw;
 						} catch (const dtn::security::EncryptException&) {
-							IBRCOMMON_LOGGER_TAG(TAG, warning) << "Encryption of bundle failed." << IBRCOMMON_LOGGER_ENDL;
+							IBRCOMMON_LOGGER_TAG(TAG, error) << "Encryption of bundle failed." << IBRCOMMON_LOGGER_ENDL;
+							throw;
 						}
 					}
 
@@ -781,7 +783,8 @@ namespace dtn
 							bundle.set(dtn::data::PrimaryBlock::DTNSEC_REQUEST_SIGN, false);
 						} catch (const dtn::security::SecurityManager::KeyMissingException&) {
 							// sign requested, but no key is available
-							IBRCOMMON_LOGGER_TAG(TAG, warning) << "No key available for sign process." << IBRCOMMON_LOGGER_ENDL;
+							IBRCOMMON_LOGGER_TAG(TAG, error) << "No key available for sign process." << IBRCOMMON_LOGGER_ENDL;
+							throw;
 						}
 					}
 #endif
@@ -936,8 +939,9 @@ namespace dtn
 
 				_table_output.append(
 						(new SecurityFilter(SecurityFilter::APPLY_AUTH, BundleFilter::SKIP))->append(
-						(new LogFilter(ibrcommon::LogLevel::warning, "can not apply authentication due to missing key"))
-					));
+						(new LogFilter(ibrcommon::LogLevel::warning, "can not apply authentication due to missing key"))->append(
+						(new RejectFilter())
+				)));
 			}
 
 			if (secconf.getLevel() & dtn::daemon::Configuration::Security::SECURITY_LEVEL_SIGNED)
