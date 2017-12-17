@@ -173,7 +173,7 @@ void print_help()
 size_t _received = 0, _transmitted = 0;
 double _min = 0.0, _max = 0.0, _avg = 0.0;
 ibrcommon::TimeMeasurement _runtime;
-ibrcommon::Conditional __pause;
+ibrcommon::Conditional _pause;
 dtn::api::Client *__client = NULL;
 
 EID _addr;
@@ -203,10 +203,10 @@ void term(int signal)
 	{
 		if (!__exit)
 		{
-			ibrcommon::MutexLock l(__pause);
+			ibrcommon::MutexLock l(_pause);
 			if (__client != NULL) __client->abort();
 			__exit = true;
-			__pause.abort();
+			_pause.abort();
 		}
 	}
 }
@@ -352,7 +352,7 @@ int main(int argc, char *argv[])
 
 		// set the global client pointer
 		{
-			ibrcommon::MutexLock l(__pause);
+			ibrcommon::MutexLock l(_pause);
 			__client = &client;
 		}
 
@@ -409,8 +409,8 @@ int main(int argc, char *argv[])
 
 						if (interval_pause > 0)
 						{
-							ibrcommon::MutexLock l(__pause);
-							__pause.wait(interval_pause * 1000);
+							ibrcommon::MutexLock l(_pause);
+							_pause.wait(interval_pause * 1000);
 						}
 					} catch (const ibrcommon::Conditional::ConditionalAbortException &e) {
 						if (e.reason == ibrcommon::Conditional::ConditionalAbortException::COND_TIMEOUT)
@@ -437,8 +437,8 @@ int main(int argc, char *argv[])
 						// this.
 						if (interval_pause > 0)
 						{
-							ibrcommon::MutexLock l(__pause);
-							__pause.wait(interval_pause);
+							ibrcommon::MutexLock l(_pause);
+							_pause.wait(interval_pause);
 						}
 					} catch (const ibrcommon::Conditional::ConditionalAbortException &e) {
 						if (e.reason == ibrcommon::Conditional::ConditionalAbortException::COND_TIMEOUT)
