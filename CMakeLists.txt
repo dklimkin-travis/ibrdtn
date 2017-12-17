@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.2)
 
 set(CMAKE_CXX_FLAGS_RELEASE "-O2 -pipe")
-set(CMAKE_CXX_FLAGS_DEBUG  "-O0 -ggdb -pipe -Wall")
+set(CMAKE_CXX_FLAGS_DEBUG  "-O0 -ggdb -Wall -pipe")
+
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 if (NOT CMAKE_BUILD_TYPE)
   set (CMAKE_BUILD_TYPE Release)
@@ -41,6 +45,11 @@ endif ()
 option(Lowpan "Build with lowpan support [default=OFF]" OFF)
 
 option(Openssl "Build with openssl support [default=OFF]" OFF)
+
+if (Openssl)
+  pkg_check_modules(OPENSSL REQUIRED libssl>=1.0.1d libcrypto)
+  message(STATUS "OpenSSL support enabled")
+endif()
 
 execute_process(
     COMMAND sh -c "git rev-parse --short HEAD | tr -d '\\n'"

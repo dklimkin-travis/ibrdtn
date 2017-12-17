@@ -46,9 +46,6 @@ set(sslsupport_sources
     ssl/SHA256Stream.cpp
     ssl/TLSStream.cpp
     ssl/XORStream.cpp
-    ssl/gcm/gcm.cpp
-    ssl/gcm/gcm_aes.c
-    ssl/gcm/gf128mul.cpp
 )
 
 # We need pthreads.
@@ -82,7 +79,6 @@ if (Lowpan)
 endif()
 
 if (Openssl)
-  pkg_check_modules(OPENSSL REQUIRED libssl libcrypto)
   list(APPEND ibrcommon_sources ${sslsupport_sources})
   list(APPEND IBRCOMMON_LIBS ${OPENSSL_LIBRARIES})
 endif()

@@ -9,15 +9,25 @@ matrix:
   include:
     - compiler: clang
     - compiler: gcc
+      env: COMPILER_NAME=gcc CXX=g++-5 CC=gcc-5
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-6
+            - g++-6
 
 addons:
   apt:
+    sources:
+      - ubuntu-toolchain-r-test
     packages:
-    - build-essential
-    - libcppunit-dev
-    - libnl-3-dev
-    - libnl-route-3-dev
-    - libnl-genl-3-dev
+      - build-essential
+      - libcppunit-dev
+      - libnl-3-dev
+      - libnl-route-3-dev
+      - libnl-genl-3-dev
 
 before_install:
 #  - pip install --user cpp-coveralls

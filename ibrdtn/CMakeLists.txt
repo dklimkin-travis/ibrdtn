@@ -9,9 +9,7 @@ if (Lowpan)
 endif()
 
 if (Openssl)
-  add_definitions(-DHAVE_OPENSSL=1)
   add_definitions(-DIBRCOMMON_SUPPORT_SSL=1)
-  message(STATUS "OpenSSL support enabled")
 endif()
 
 if (DtnSec)

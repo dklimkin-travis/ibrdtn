@@ -22,12 +22,14 @@
 #ifndef AES128STREAM_H_
 #define AES128STREAM_H_
 
-#include <streambuf>
-#include <ostream>
-#include <sys/types.h>
-#include <stdint.h>
 #include "ibrcommon/ssl/CipherStream.h"
-#include "ibrcommon/ssl/gcm/gcm.h"
+
+#include <memory>
+#include <openssl/evp.h>
+#include <openssl/ossl_typ.h>
+#include <ostream>
+#include <stdint.h>
+#include <streambuf>
 
 namespace ibrcommon
 {
@@ -37,7 +39,6 @@ namespace ibrcommon
 	be created and can be read with getIV() and getTag(). In decryption mode
 	initialisation vector and tag have to be set at construction or via the
 	decrypt()-Method.
-	TODO test the gcm_iv structure on be and le systems
 	*/
 	class AES128Stream : public ibrcommon::CipherStream
 	{
@@ -72,9 +73,6 @@ namespace ibrcommon
 			AES128Stream(const CipherMode mode, std::ostream& output, const unsigned char key[key_size_in_bytes], const uint32_t salt);
 			AES128Stream(const CipherMode mode, std::ostream& output, const unsigned char key[key_size_in_bytes], const uint32_t salt, const unsigned char iv[iv_len]);
 
-			/** cleans the output buffer and the context */
-			virtual ~AES128Stream();
-
 			/**
 			Write the initialisation vector into an array, with length iv_len.
 			@param to_iv the array in which the vector will be written into
@@ -95,26 +93,26 @@ namespace ibrcommon
 		protected:
 			virtual void encrypt(char *buf, const size_t size);
 			virtual void decrypt(char *buf, const size_t size);
+			virtual void encrypt_final();
 
 		private:
-			/** a way of putting salt and initialisation_vector together in memory,
-			without the use of memcpy().\n
-			TODO it needs to be tested if this behave on little and big endian
-			equally*/
+			// a way of putting salt and initialisation_vector together in memory without the use of memcpy().
+			// TODO: test the gcm_iv structure on be and le systems.
 			typedef struct {
 				uint32_t salt;
 				unsigned char initialisation_vector[iv_len];
 			} gcm_iv;
+			// making sure padding didn't make a hole for us.
+			static_assert(sizeof(gcm_iv) == iv_len + salt_len, "sizeof gcm_iv struct doesn't match expected");
 
-			/** the instance of the gcm_iv struct */
+			// the instance of the gcm_iv struct.
 			gcm_iv _gcm_iv;
 
-			/** the openssl context used for the AES operations */
-			gcm_ctx _ctx;
+			// the openssl context used for the AES operations.
+			std::unique_ptr<EVP_CIPHER_CTX, decltype(&EVP_CIPHER_CTX_free)> ctx;
 
-			/**
-			since the initilisation vector will be refilled with random bytes after encryption, a copy of the last one is stored here
-			*/
+			// since the initialization vector will be refilled with random bytes after encryption,
+			// a copy of the last one is stored here.
 			unsigned char _used_initialisation_vector[iv_len];
 	};
 }
