@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.9)
 
 set(CMAKE_CXX_FLAGS_RELEASE "-O2 -pipe")
-set(CMAKE_CXX_FLAGS_DEBUG  "-O0 -ggdb -pipe -Wall")
+set(CMAKE_CXX_FLAGS_DEBUG  "-O0 -ggdb -pipe -Wall -Wextra -Wpedantic")
 
 if (NOT CMAKE_BUILD_TYPE)
   set (CMAKE_BUILD_TYPE Release)
@@ -12,6 +12,10 @@ message(STATUS "Build configuration: " ${CMAKE_BUILD_TYPE})
 if (CMAKE_BUILD_TYPE EQUAL Debug)
   add_definitions(-D__DEVELOPMENT_ASSERTIONS__=1)
 endif()
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(PkgConfig REQUIRED QUIET)
 
@@ -57,8 +61,6 @@ execute_process(
 message( STATUS "Package version: " ${VERSION} )
 add_definitions(-DVERSION="${VERSION}")
 add_definitions(-DPACKAGE_VERSION="${VERSION}")
-
-include(CheckCXXSourceCompiles)
 
 include(CheckIncludeFileCXX)
 CHECK_INCLUDE_FILE_CXX("regex.h" HAVE_REGEX_H)

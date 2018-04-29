@@ -1,4 +1,4 @@
-set(ibrcommon_test_sources
+add_executable(ibrcommon_test
     Main.cpp
     net/tcpclienttest.cpp
     net/tcpstreamtest.cpp
@@ -7,24 +7,22 @@ set(ibrcommon_test_sources
     thread/ThreadTest.cpp
     thread/TimerTest.cpp
 )
+target_link_libraries(ibrcommon_test ibrcommon ${CPPUNIT_LIBRARIES})
+
+pkg_check_modules(CPPUNIT REQUIRED cppunit)
+target_include_directories(ibrcommon_test PRIVATE ${CMAKE_CURRENT_LIST_DIR})
 
 if(Netlink)
-  list(APPEND ibrcommon_test_sources link/netlinktest.cpp)
+  target_sources(ibrcommon_test PRIVATE link/netlinktest.cpp)
 endif()
 
 if(Openssl)
-  list(APPEND ibrcommon_test_sources
+  target_sources(ibrcommon_test
+    PRIVATE
       ssl/CipherStreamTest.cpp
       ssl/HashStreamTest.cpp
       ssl/RSASHA256StreamTest.cpp
   )
 endif()
 
-
-pkg_check_modules(CPPUNIT REQUIRED cppunit)
-
-# build ibrcommon_test as a binary
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-link_directories(${CMAKE_SOURCE_DIR}/ibrcommon)
-add_executable(ibrcommon_test ${ibrcommon_test_sources})
-target_link_libraries(ibrcommon_test ibrcommon ${CPPUNIT_LIBRARIES})
+add_test(NAME ibrcommon.Test COMMAND ibrcommon_test)
