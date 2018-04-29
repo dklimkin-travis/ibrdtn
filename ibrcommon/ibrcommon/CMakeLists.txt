@@ -38,8 +38,6 @@ set(sslsupport_sources
     ssl/CipherStream.cpp
     ssl/HashStream.cpp
     ssl/HMacStream.cpp
-# Can't link.
-#    ssl/InputCipherStream.cpp
     ssl/iostreamBIO.cpp
     ssl/MD5Stream.cpp
     ssl/RSASHA256Stream.cpp
