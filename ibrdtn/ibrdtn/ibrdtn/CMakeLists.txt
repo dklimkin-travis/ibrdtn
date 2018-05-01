@@ -1,7 +1,7 @@
 file(WRITE config.h "/* cmake is used. */")
 file(WRITE ibrdtn.h "/* cmake is used. */")
 
-set(ibrdtn_sources
+add_library(ibrdtn SHARED
     api/Client.cpp
     api/PlainSerializer.cpp
     data/AdministrativeBlock.cpp
@@ -42,37 +42,29 @@ set(ibrdtn_sources
     utils/Utils.cpp
 )
 
-set(secext_sources
-    security/BundleAuthenticationBlock.cpp
-    security/ExtensionSecurityBlock.cpp
-    security/MutableSerializer.cpp
-    security/PayloadConfidentialBlock.cpp
-    security/PayloadIntegrityBlock.cpp
-    security/SecurityBlock.cpp
-    security/SecurityKey.cpp
-    security/StrictSerializer.cpp
-)
-
-set(IBRDTN_LIBS ibrcommon)
-
-option(DtnSec "Enable security extensions" ${Openssl})
-
 if(DtnSec)
-  if(NOT Openssl)
-    message(SEND_ERROR "Bundle Security Protocol requires OpenSSL enabled")
-  endif()
   message(STATUS "Bundle Security Protocol support enabled")
-  list(APPEND ibrdtn_sources ${secext_sources})
+  target_sources(ibrdtn
+    PRIVATE
+      security/BundleAuthenticationBlock.cpp
+      security/ExtensionSecurityBlock.cpp
+      security/MutableSerializer.cpp
+      security/PayloadConfidentialBlock.cpp
+      security/PayloadIntegrityBlock.cpp
+      security/SecurityBlock.cpp
+      security/SecurityKey.cpp
+      security/StrictSerializer.cpp
+  )
 else()
   message(STATUS "Warning: Bundle Security Protocol support disabled")
 endif()
 
 if(Compression)
-  list(APPEND ibrdtn_sources data/CompressedPayloadBlock.cpp)
-  list(APPEND IBRDTN_LIBS ${ZLIB_LIBRARIES})
+  target_sources(ibrdtn PRIVATE data/CompressedPayloadBlock.cpp)
+  target_link_libraries(ibrdtn ${ZLIB_LIBRARIES})
 endif()
 
-add_library(ibrdtn SHARED ${ibrdtn_sources})
-target_link_libraries(ibrdtn ${IBRDTN_LIBS})
+target_link_libraries(ibrdtn ibrcommon)
+target_include_directories(ibrdtn PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/..")
 
 install(TARGETS ibrdtn LIBRARY DESTINATION lib)

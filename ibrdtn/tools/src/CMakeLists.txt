@@ -32,9 +32,8 @@ set(dtnstream_EXTRA
   streaming/StreamBundle.cpp
 )
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
 foreach(TOOL ${ALL_TOOLS})
   add_executable(${TOOL} "${TOOL}.cpp" "${${TOOL}_EXTRA}")
+  target_include_directories(${TOOL} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
   target_link_libraries(${TOOL} ${TOOL_LIBRARIES})
 endforeach()

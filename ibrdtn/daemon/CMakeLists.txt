@@ -1,8 +1,6 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.9)
 
 project (dtnd)
-
-include_directories("${CMAKE_SOURCE_DIR}/ibrdtn/daemon/src")
 
 # TODO: set up CURL
 # TODO: set up VMIME

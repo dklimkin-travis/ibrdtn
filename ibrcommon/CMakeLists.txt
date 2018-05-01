@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.9)
 
 project (ibrcommon)
 
-add_library(ibrcommon SHARED
+add_library(ibrcommon
+  SHARED
     ibrcommon/appstreambuf.cpp
     ibrcommon/Logger.cpp
     ibrcommon/MonotonicClock.cpp
@@ -55,7 +56,8 @@ if (Lowpan)
   if(NOT HAS_NETLINK)
     message(SEND_ERROR "Netlink is required for lowpan support")
   endif()
-  target_sources(ibrcommon PRIVATE
+  target_sources(ibrcommon
+    PRIVATE
       ibrcommon/net/lowpansocket.cpp
       ibrcommon/net/lowpanstream.cpp
       ibrcommon/link/nl_policy.c
