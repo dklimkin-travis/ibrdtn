@@ -1,8 +1,10 @@
-set(dtnd_test_sources
-    testsuite.cpp
-)
+set(TEST_LIBRARIES ibrcommon ibrdtn dtnd_lib ${CPPUNIT_LIBRARIES})
 
-set(dtnd_unittest_sources
+add_executable(dtnd_test testsuite.cpp)
+target_link_libraries(dtnd_test ${TEST_LIBRARIES})
+add_test(NAME dtnd_test.Testsuite COMMAND dtnd_test)
+
+add_executable(dtnd_unittest
     unittests/BaseRouterTest.cpp
     unittests/BundleSetTest.cpp
     unittests/BundleStorageTest.cpp
@@ -15,11 +17,5 @@ set(dtnd_unittest_sources
     unittests/NativeSerializerTest.cpp
     unittests/NodeTest.cpp
 )
-
-set(TEST_LIBRARIES ibrcommon ibrdtn dtnd_lib ${CPPUNIT_LIBRARIES})
-
-add_executable(dtnd_test ${dtnd_test_sources})
-target_link_libraries(dtnd_test ${TEST_LIBRARIES})
-
-add_executable(dtnd_unittest ${dtnd_unittest_sources})
 target_link_libraries(dtnd_unittest ${TEST_LIBRARIES})
+add_test(NAME dtnd_test.Unittest COMMAND dtnd_unittest)

@@ -1,10 +1,6 @@
 file(WRITE config.h "/* cmake is used. */")
 
-set(dtnd_sources
-    Main.cpp
-)
-
-set(dtnd_lib_sources
+add_library(dtnd_lib STATIC
     CapsuleWorker.cpp
     Component.cpp
     Configuration.cpp
@@ -99,13 +95,9 @@ set(dtnd_lib_sources
     storage/SimpleBundleStorage.cpp
 )
 
-if(WIN32)
-  list(APPEND dtnd_sources NTService.cpp)
-endif()
-
-
 if (DtnSec)
-  list(APPEND dtnd_lib_sources
+  target_sources(dtnd_lib
+    PRIVATE
       security/SecurityKeyManager.cpp
       security/SecurityManager.cpp
       security/exchange/DHProtocol.cpp
@@ -119,17 +111,15 @@ if (DtnSec)
       security/exchange/NoneProtocol.cpp
       security/exchange/QRCodeProtocol.cpp
   )
-# JPake is discontinued in OpenSSL and should never be enabled.
-# HAVE_OPENSSL_JPAKE_H
-#    security/exchange/JPAKEProtocol.cpp
 endif()
 
 if (EnableTls)
-  list(APPEND dtnd_lib_sources security/SecurityCertificateManager.cpp)
+    target_sources(dtnd_lib PRIVATE security/SecurityCertificateManager.cpp)
 endif()
 
 if (Lowpan)
-  list(APPEND dtnd_lib_sources
+  target_sources(dtnd_lib
+    PRIVATE
       net/LOWPANConnection.cpp
       net/LOWPANConvergenceLayer.cpp
       net/LOWPANDatagramService.cpp
@@ -137,7 +127,7 @@ if (Lowpan)
 endif()
 
 if (HAVE_REGEX_H)
-  list(APPEND dtnd_lib_sources routing/StaticRegexRoute.cpp)
+  target_sources(dtnd_lib PRIVATE routing/StaticRegexRoute.cpp)
 endif()
 
 # TODO: set up CURL
@@ -162,14 +152,14 @@ endif()
 
 # TODO: add configration option, test it builds.
 if (DtnDht)
-  list(APPEND dtnd_lib_sources net/DHTNameService.cpp)
+  target_sources(dtnd_lib PUBLIC net/DHTNameService.cpp)
   add_definitions(-DWITH_DHT_NAMESERVICE=1)
 endif()
 
-add_library(dtnd_lib STATIC ${dtnd_lib_sources})
+target_include_directories(dtnd_lib PUBLIC "${CMAKE_CURRENT_LIST_DIR}")
 target_link_libraries(dtnd_lib ibrcommon ibrdtn)
 
-add_executable(dtnd ${dtnd_sources})
+add_executable(dtnd "Main.cpp")
 target_link_libraries(dtnd dtnd_lib)
 
 install(TARGETS dtnd RUNTIME DESTINATION sbin)

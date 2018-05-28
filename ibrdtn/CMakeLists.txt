@@ -1,7 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
-
-include_directories("${CMAKE_SOURCE_DIR}/ibrcommon")
-include_directories("${CMAKE_SOURCE_DIR}/ibrdtn/ibrdtn")
+cmake_minimum_required(VERSION 3.9)
 
 if (Lowpan)
   add_definitions(-DIBRCOMMON_SUPPORT_LOWPAN=1)
@@ -14,7 +11,12 @@ if (Openssl)
   message(STATUS "OpenSSL support enabled")
 endif()
 
-if (DtnSec)
+option(DtnSec "Enable security extensions" ${Openssl})
+
+if(DtnSec)
+  if(NOT Openssl)
+    message(SEND_ERROR "Bundle Security Protocol requires OpenSSL enabled")
+  endif()
   add_definitions(-DIBRDTN_SUPPORT_BSP=1)
 endif()
 

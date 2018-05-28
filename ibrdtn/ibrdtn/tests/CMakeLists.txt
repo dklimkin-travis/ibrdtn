@@ -1,4 +1,4 @@
-set(ibrdtn_test_sources
+add_executable(ibrdtn_test
     Main.cpp
     api/TestPlainSerializer.cpp
     data/TestBundleID.cpp
@@ -16,21 +16,19 @@ set(ibrdtn_test_sources
 )
 
 if (Compression)
-  list(APPEND ibrdtn_test_sources data/TestCompressedPayloadBlock.cpp)
-  list(APPEND ibrdtn_test_sources ${ZLIB_LIBRARIES})
+  target_sources(ibrdtn_test PRIVATE data/TestCompressedPayloadBlock.cpp)
 endif()
 
 if (DtnSec)
-  list(APPEND ibrdtn_test_sources
+  target_sources(ibrdtn_test
+    PRIVATE
       security/PayloadConfidentialBlockTest.cpp
       security/PayloadIntegrityBlockTest.cpp
       security/TestSecurityBlock.cpp
   )
 endif()
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(ibrdtn_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(ibrdtn_test ibrcommon ibrdtn ${CPPUNIT_LIBRARIES})
 
-set(IBRDN_TEST_LIBRARIES ibrcommon ibrdtn ${CPPUNIT_LIBRARIES})
-
-add_executable(ibrdtn_test ${ibrdtn_test_sources})
-target_link_libraries(ibrdtn_test ${IBRDN_TEST_LIBRARIES})
+add_test(NAME ibrdtn.Test COMMAND ibrdtn_test)
