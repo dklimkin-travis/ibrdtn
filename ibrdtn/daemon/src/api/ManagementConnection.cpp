@@ -26,8 +26,6 @@
 #include "storage/BundleResult.h"
 #include "core/BundleCore.h"
 #include "core/Node.h"
-#include "routing/prophet/ProphetRoutingExtension.h"
-#include "routing/prophet/DeliveryPredictabilityMap.h"
 
 #include "core/EventDispatcher.h"
 #include "core/GlobalEvent.h"
@@ -378,52 +376,7 @@ namespace dtn
 				{
 					if (cmd.size() < 3) throw ibrcommon::Exception("not enough parameters");
 
-					if ( cmd[1] == "prophet" )
-					{
-						dtn::routing::BaseRouter &router = dtn::core::BundleCore::getInstance().getRouter();
-
-						// lock the extension list during the processing
-						ibrcommon::MutexLock l(router.getExtensionMutex());
-
-						const dtn::routing::BaseRouter::extension_list& routingExtensions = router.getExtensions();
-						dtn::routing::BaseRouter::extension_list::const_iterator it;
-
-						/* find the prophet extension in the BaseRouter */
-
-						for(it = routingExtensions.begin(); it != routingExtensions.end(); ++it)
-						{
-							try
-							{
-								const dtn::routing::ProphetRoutingExtension& prophet_extension = dynamic_cast<const dtn::routing::ProphetRoutingExtension&>(**it);
-
-								if ( cmd[2] == "info" ){
-									ibrcommon::ThreadsafeReference<const dtn::routing::DeliveryPredictabilityMap> dp_map = prophet_extension.getDeliveryPredictabilityMap();
-
-									_stream << ClientHandler::API_STATUS_OK << " ROUTING PROPHET INFO" << std::endl;
-									_stream << *dp_map << std::endl;
-								} else if ( cmd[2] == "acknowledgements" ) {
-									ibrcommon::ThreadsafeReference<const dtn::routing::AcknowledgementSet> ack_set = prophet_extension.getAcknowledgementSet();
-
-									_stream << ClientHandler::API_STATUS_OK << " ROUTING PROPHET ACKNOWLEDGEMENTS" << std::endl;
-									for (dtn::routing::AcknowledgementSet::const_iterator iter = (*ack_set).begin(); iter != (*ack_set).end(); ++iter)
-									{
-										const dtn::data::MetaBundle &ack = (*iter);
-										_stream << ack.toString() << " | " << ack.expiretime.toString() << std::endl;
-									}
-									_stream << std::endl;
-								} else {
-									throw ibrcommon::Exception("malformed command");
-								}
-
-								break;
-							} catch (const std::bad_cast&) { }
-						}
-						if(it == routingExtensions.end())
-						{
-							/* no prophet routing extension found */
-							_stream << ClientHandler::API_STATUS_NOT_ACCEPTABLE << " ROUTING PROPHET EXTENSION NOT FOUND" << std::endl;
-						}
-					} else if ( cmd[1] == "static" ) {
+					if ( cmd[1] == "static" ) {
 						if (cmd.size() < 5) throw ibrcommon::Exception("not enough parameters");
 
 						if (cmd[2] == "add")

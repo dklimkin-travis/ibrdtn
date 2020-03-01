@@ -82,10 +82,6 @@ add_library(dtnd_lib STATIC
     routing/StaticRoutingExtension.cpp
     routing/epidemic/EpidemicRoutingExtension.cpp
     routing/flooding/FloodRoutingExtension.cpp
-    routing/prophet/AcknowledgementSet.cpp
-    routing/prophet/DeliveryPredictabilityMap.cpp
-    routing/prophet/ForwardingStrategy.cpp
-    routing/prophet/ProphetRoutingExtension.cpp
     storage/BundleIndex.cpp
     storage/BundleResult.cpp
     storage/BundleStorage.cpp

@@ -49,7 +49,6 @@
 #include "routing/NeighborRoutingExtension.h"
 #include "routing/SchedulingBundleIndex.h"
 #include "routing/epidemic/EpidemicRoutingExtension.h"
-#include "routing/prophet/ProphetRoutingExtension.h"
 #include "routing/flooding/FloodRoutingExtension.h"
 
 #include "core/BundleExpiredEvent.h"
@@ -1619,34 +1618,6 @@ namespace dtn
 			{
 				IBRCOMMON_LOGGER_TAG(NativeDaemon::TAG, info) << "Using epidemic routing extensions" << IBRCOMMON_LOGGER_ENDL;
 				router.add( new dtn::routing::EpidemicRoutingExtension() );
-
-				// add neighbor routing (direct-delivery) extension
-				router.add( new dtn::routing::NeighborRoutingExtension() );
-				break;
-			}
-
-			case dtn::daemon::Configuration::PROPHET_ROUTING:
-			{
-				dtn::daemon::Configuration::Network::ProphetConfig prophet_config = conf.getNetwork().getProphetConfig();
-				std::string strategy_name = prophet_config.forwarding_strategy;
-				dtn::routing::ForwardingStrategy *forwarding_strategy;
-				if(strategy_name == "GRTR"){
-					forwarding_strategy = new dtn::routing::ProphetRoutingExtension::GRTR_Strategy();
-				}
-				else if(strategy_name == "GTMX"){
-					forwarding_strategy = new dtn::routing::ProphetRoutingExtension::GTMX_Strategy(prophet_config.gtmx_nf_max);
-				}
-				else{
-					IBRCOMMON_LOGGER_TAG(NativeDaemon::TAG, error) << "Prophet forwarding strategy " << strategy_name << " not found. Using GRTR as fallback." << IBRCOMMON_LOGGER_ENDL;
-					forwarding_strategy = new dtn::routing::ProphetRoutingExtension::GRTR_Strategy();
-				}
-				IBRCOMMON_LOGGER_TAG(NativeDaemon::TAG, info) << "Using prophet routing extensions with " << strategy_name << " as forwarding strategy." << IBRCOMMON_LOGGER_ENDL;
-				router.add( new dtn::routing::ProphetRoutingExtension(forwarding_strategy, prophet_config.p_encounter_max,
-												prophet_config.p_encounter_first, prophet_config.p_first_threshold,
-												prophet_config.beta, prophet_config.gamma, prophet_config.delta,
-												prophet_config.time_unit, prophet_config.i_typ,
-												prophet_config.next_exchange_timeout,
-												prophet_config.push_notification));
 
 				// add neighbor routing (direct-delivery) extension
 				router.add( new dtn::routing::NeighborRoutingExtension() );

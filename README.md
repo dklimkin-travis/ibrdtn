@@ -41,7 +41,6 @@ a specific class.
   * Forward bundles on discovery
   * Epidemic routing with bloomfilter
   * Flooding routing scheme
-  * PRoPHET Routing
 
  Storage Modules
   * Memory-based storage

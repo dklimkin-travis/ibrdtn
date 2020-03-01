@@ -762,38 +762,6 @@ namespace dtn
 			 */
 			_routing = conf.read<std::string>("routing", "default");
 
-			if(_routing == "prophet"){
-				/* read prophet parameters */
-				_prophet_config.p_encounter_max = conf.read<float>("prophet_p_encounter_max", 0.7f);
-				if(_prophet_config.p_encounter_max > 1 || _prophet_config.p_encounter_max <= 0)
-					_prophet_config.p_encounter_max = 0.7f;
-				_prophet_config.p_encounter_first = conf.read<float>("prophet_p_encounter_first", 0.5f);
-				if(_prophet_config.p_encounter_first > 1 || _prophet_config.p_encounter_first <= 0)
-					_prophet_config.p_encounter_first = 0.5f;
-				_prophet_config.p_first_threshold = conf.read<float>("prophet_p_first_threshold", 0.1f);
-				if(_prophet_config.p_first_threshold < 0 || _prophet_config.p_first_threshold >= _prophet_config.p_encounter_first)
-					_prophet_config.p_first_threshold = 0; //disable first threshold on misconfiguration
-				_prophet_config.beta = conf.read<float>("prophet_beta", 0.9f);
-				if(_prophet_config.beta < 0 || _prophet_config.beta > 1)
-					_prophet_config.beta = 0.9f;
-				_prophet_config.gamma = conf.read<float>("prophet_gamma", 0.999f);
-				if(_prophet_config.gamma <= 0 || _prophet_config.gamma > 1)
-					_prophet_config.gamma = 0.999f;
-				_prophet_config.delta = conf.read<float>("prophet_delta", 0.01f);
-				if(_prophet_config.delta < 0 || _prophet_config.delta > 1)
-					_prophet_config.delta = 0.01f;
-				_prophet_config.time_unit = conf.read<ibrcommon::Timer::time_t>("prophet_time_unit", 1);
-				if(_prophet_config.time_unit < 1)
-					_prophet_config.time_unit = 1;
-				_prophet_config.i_typ = conf.read<ibrcommon::Timer::time_t>("prophet_i_typ", 300);
-				if(_prophet_config.i_typ < 1)
-					_prophet_config.i_typ = 1;
-				_prophet_config.next_exchange_timeout = conf.read<ibrcommon::Timer::time_t>("prophet_next_exchange_timeout", 600);
-				_prophet_config.forwarding_strategy = conf.read<std::string>("prophet_forwarding_strategy", "GRTR");
-				_prophet_config.gtmx_nf_max = conf.read<unsigned int>("prophet_gtmx_nf_max", 30);
-				_prophet_config.push_notification = (conf.read<std::string>("prophet_push_notification", "no") == "yes");
-			}
-
 			/**
 			 * get the routing parameters
 			 */
