@@ -27,7 +27,6 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <ibrcommon/TimeMeasurement.h>
 
-#include "config.h"
 #include "storage/BundleStorage.h"
 #include "../tools/EventSwitchLoop.h"
 #include <vector>

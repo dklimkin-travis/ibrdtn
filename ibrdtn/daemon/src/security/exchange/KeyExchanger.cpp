@@ -20,7 +20,6 @@
  *
  */
 
-#include "config.h"
 #include "security/exchange/KeyExchanger.h"
 #include "security/SecurityKeyManager.h"
 

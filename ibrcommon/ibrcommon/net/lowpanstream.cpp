@@ -19,7 +19,6 @@
  *
  */
 
-#include "ibrcommon/config.h"
 #include "ibrcommon/net/lowpanstream.h"
 
 #include "ibrcommon/Logger.h"

@@ -19,7 +19,6 @@
  *
  */
 
-#include "ibrcommon/config.h"
 #include "ibrcommon/thread/Conditional.h"
 #include "ibrcommon/thread/Thread.h"
 #include <sys/time.h>

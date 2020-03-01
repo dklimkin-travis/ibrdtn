@@ -5,7 +5,6 @@
  *      Author: morgenro
  */
 
-#include "ibrcommon/config.h"
 #include "ibrcommon/MonotonicClock.h"
 #include <time.h>
 

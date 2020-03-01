@@ -19,7 +19,6 @@
  *
  */
 
-#include "ibrcommon/config.h"
 #include "ibrcommon/net/lowpansocket.h"
 #include "ibrcommon/Logger.h"
 #include <sys/socket.h>

@@ -19,7 +19,6 @@
  *
  */
 
-#include "config.h"
 #include <ibrdtn/data/StatusReportBlock.h>
 #include <ibrdtn/data/TrackingBlock.h>
 #include "ibrdtn/api/Client.h"

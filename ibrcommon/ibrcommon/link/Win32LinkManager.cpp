@@ -5,7 +5,6 @@
  *      Author: morgenro
  */
 
-#include "ibrcommon/config.h"
 #include "ibrcommon/link/Win32LinkManager.h"
 #include <sstream>
 #include <ws2tcpip.h>

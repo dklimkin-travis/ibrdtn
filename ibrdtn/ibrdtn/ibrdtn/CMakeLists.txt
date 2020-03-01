@@ -1,6 +1,3 @@
-file(WRITE config.h "/* cmake is used. */")
-file(WRITE ibrdtn.h "/* cmake is used. */")
-
 add_library(ibrdtn SHARED
     api/Client.cpp
     api/PlainSerializer.cpp

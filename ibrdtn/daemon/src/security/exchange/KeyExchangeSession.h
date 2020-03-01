@@ -23,7 +23,6 @@
 #ifndef KEYEXCHANGESESSION_H_
 #define KEYEXCHANGESESSION_H_
 
-#include "config.h"
 #include <ibrdtn/data/EID.h>
 #include <ibrdtn/security/SecurityKey.h>
 #include <vector>

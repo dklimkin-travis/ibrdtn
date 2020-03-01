@@ -19,7 +19,6 @@
  *
  */
 
-#include "config.h"
 #include "Configuration.h"
 #include "api/BinaryStreamClient.h"
 #include "core/GlobalEvent.h"

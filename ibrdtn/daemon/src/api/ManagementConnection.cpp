@@ -19,7 +19,6 @@
  *
  */
 
-#include "config.h"
 #include "Configuration.h"
 #include "DTNTPWorker.h"
 #include "ManagementConnection.h"
@@ -36,7 +35,6 @@
 #include "routing/RequeueBundleEvent.h"
 #include "core/TimeAdjustmentEvent.h"
 
-#include <ibrdtn/ibrdtn.h>
 #ifdef IBRDTN_SUPPORT_BSP
 #include "security/exchange/KeyExchangeData.h"
 #include "security/exchange/KeyExchangeEvent.h"

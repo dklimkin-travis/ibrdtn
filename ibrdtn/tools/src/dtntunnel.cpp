@@ -19,8 +19,6 @@
  *
  */
 
-#include "config.h"
-
 #include <iostream>
 #include <iomanip>
 #include <stdlib.h>

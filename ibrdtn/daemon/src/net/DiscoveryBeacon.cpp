@@ -19,7 +19,6 @@
  *
  */
 
-#include "config.h"
 #include "net/DiscoveryBeacon.h"
 #include <ibrdtn/data/Exceptions.h>
 #include <ibrdtn/data/Number.h>

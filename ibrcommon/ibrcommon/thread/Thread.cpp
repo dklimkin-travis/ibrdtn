@@ -19,7 +19,6 @@
  *
  */
 
-#include "ibrcommon/config.h"
 #include "ibrcommon/thread/Thread.h"
 #include "ibrcommon/thread/MutexLock.h"
 #include "ibrcommon/Logger.h"

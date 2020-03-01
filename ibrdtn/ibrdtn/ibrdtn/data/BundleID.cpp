@@ -19,7 +19,6 @@
  *
  */
 
-#include "ibrdtn/config.h"
 #include "ibrdtn/data/BundleID.h"
 #include "ibrdtn/data/Number.h"
 #include "ibrdtn/data/BundleString.h"

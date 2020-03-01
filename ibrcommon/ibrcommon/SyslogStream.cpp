@@ -19,7 +19,6 @@
  *
  */
 
-#include "ibrcommon/config.h"
 #include "ibrcommon/SyslogStream.h"
 #include <syslog.h>
 

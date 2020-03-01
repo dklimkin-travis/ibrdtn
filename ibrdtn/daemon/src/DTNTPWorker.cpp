@@ -19,7 +19,6 @@
  *
  */
 
-#include "config.h"
 #include "DTNTPWorker.h"
 #include "core/EventDispatcher.h"
 #include "core/BundleCore.h"

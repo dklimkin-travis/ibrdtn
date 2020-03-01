@@ -19,7 +19,6 @@
  *
  */
 
-#include "ibrcommon/config.h"
 #include "ibrcommon/thread/Timer.h"
 #include "ibrcommon/thread/MutexLock.h"
 

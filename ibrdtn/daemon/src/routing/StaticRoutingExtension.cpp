@@ -19,7 +19,6 @@
  *
  */
 
-#include "config.h"
 #include "Configuration.h"
 #include "routing/StaticRoutingExtension.h"
 #include "routing/QueueBundleEvent.h"

@@ -19,7 +19,6 @@
  *
  */
 
-#include "config.h"
 #include "net/FileMonitor.h"
 #include "core/BundleCore.h"
 #include <ibrcommon/Logger.h>

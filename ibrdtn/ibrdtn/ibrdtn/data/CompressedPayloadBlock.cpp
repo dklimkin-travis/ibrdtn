@@ -19,7 +19,6 @@
  *
  */
 
-#include "ibrdtn/config.h"
 #include "ibrdtn/data/CompressedPayloadBlock.h"
 #include "ibrdtn/data/PayloadBlock.h"
 #include <ibrcommon/data/BLOB.h>

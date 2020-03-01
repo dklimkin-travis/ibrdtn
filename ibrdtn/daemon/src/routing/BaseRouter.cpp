@@ -19,7 +19,6 @@
  *
  */
 
-#include "config.h"
 #include "Configuration.h"
 
 #include "routing/BaseRouter.h"
@@ -34,7 +33,6 @@
 #include <ibrcommon/thread/MutexLock.h>
 #include <ibrcommon/thread/RWLock.h>
 
-#include <ibrdtn/ibrdtn.h>
 #ifdef IBRDTN_SUPPORT_BSP
 #include "security/SecurityManager.h"
 #endif

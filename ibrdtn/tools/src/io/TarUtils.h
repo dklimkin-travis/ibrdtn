@@ -23,7 +23,6 @@
 
 #ifndef TARUTILS_H_
 #define TARUTILS_H_
-#include "config.h"
 #include "io/ObservedFile.h"
 #include <ibrcommon/data/File.h>
 #include <set>

@@ -1,5 +1,3 @@
-file(WRITE config.h "/* cmake is used. */")
-
 add_library(dtnd_lib STATIC
     CapsuleWorker.cpp
     Component.cpp

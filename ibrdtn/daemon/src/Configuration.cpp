@@ -19,13 +19,11 @@
  *
  */
 
-#include "config.h"
 #include "Configuration.h"
 #include "net/DiscoveryBeacon.h"
 #include "net/DiscoveryBeacon.h"
 #include "core/Node.h"
 
-#include <ibrdtn/ibrdtn.h>
 #include <ibrdtn/utils/Utils.h>
 #include <ibrdtn/utils/Clock.h>
 

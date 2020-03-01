@@ -19,7 +19,6 @@
  *
  */
 
-#include "ibrcommon/config.h"
 #include "ibrcommon/appstreambuf.h"
 
 namespace ibrcommon

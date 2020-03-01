@@ -15,7 +15,6 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "config.h"
 #include "storage/BundleStorage.h"
 #include "Component.h"
 #include "../tools/EventSwitchLoop.h"

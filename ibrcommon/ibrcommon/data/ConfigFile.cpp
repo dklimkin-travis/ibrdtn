@@ -26,7 +26,6 @@
  *
  */
 
-#include "ibrcommon/config.h"
 #include "ibrcommon/data/ConfigFile.h"
 
 namespace ibrcommon

@@ -34,7 +34,6 @@
 #include "net/ConnectionEvent.h"
 #include "routing/QueueBundleEvent.h"
 
-#include <ibrdtn/ibrdtn.h>
 #ifdef IBRDTN_SUPPORT_BSP
 #include "security/exchange/KeyExchangeEvent.h"
 #endif

@@ -22,7 +22,6 @@
 #ifndef TCPCONVERGENCELAYER_H_
 #define TCPCONVERGENCELAYER_H_
 
-#include "config.h"
 #include "Component.h"
 
 #include "core/Node.h"

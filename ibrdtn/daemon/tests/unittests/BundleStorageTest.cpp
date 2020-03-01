@@ -30,7 +30,6 @@
  *
  */
 
-#include "config.h"
 #include "BundleStorageTest.hh"
 #include "../tools/TestEventListener.h"
 #include <cppunit/extensions/HelperMacros.h>

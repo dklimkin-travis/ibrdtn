@@ -19,7 +19,6 @@
  *
  */
 
-#include "config.h"
 #include "Configuration.h"
 #include <ibrcommon/Logger.h>
 #include <ibrcommon/data/File.h>

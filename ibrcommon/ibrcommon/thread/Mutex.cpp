@@ -19,7 +19,6 @@
  *
  */
 
-#include "ibrcommon/config.h"
 #include "ibrcommon/thread/Mutex.h"
 #include <errno.h>
 

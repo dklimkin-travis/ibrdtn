@@ -21,14 +21,12 @@
  *  Created on: Sep 30, 2013
  */
 
-#include "config.h"
 #include "io/ObservedFile.h"
 #include <string.h>
 #include <sstream>
 #include <typeinfo>
 #include <limits>
 
-#include <ibrcommon/ibrcommon.h>
 #include <ibrcommon/Logger.h>
 #ifdef IBRCOMMON_SUPPORT_SSL
 #include <ibrcommon/ssl/MD5Stream.h>

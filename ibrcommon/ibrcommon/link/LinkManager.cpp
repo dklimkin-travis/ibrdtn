@@ -19,7 +19,6 @@
  *
  */
 
-#include "ibrcommon/config.h"
 #include "ibrcommon/link/LinkManager.h"
 #include "ibrcommon/link/LinkEvent.h"
 #include "ibrcommon/thread/MutexLock.h"

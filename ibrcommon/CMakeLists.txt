@@ -89,10 +89,6 @@ endif()
 # TODO: find out where MCAST_JOIN_GROUP can come from.
 # TODO: find out where MCAST_LEAVE_GROUP can come from.
 
-# Generate dummy configs, not used with CMake.
-file(WRITE ibrcommon/config.h "/* cmake is used. */")
-file(WRITE ibrcommon/ibrcommon.h "/* cmake is used. */")
-
 if(Tests)
   add_subdirectory("tests")
 endif()

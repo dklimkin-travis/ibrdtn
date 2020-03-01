@@ -19,7 +19,6 @@
  *
  */
 
-#include "config.h"
 #include "Configuration.h"
 #include "api/Registration.h"
 #include "storage/BundleStorage.h"

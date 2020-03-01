@@ -19,7 +19,6 @@
  *
  */
 
-#include "ibrdtn/config.h"
 #include "ibrdtn/data/Endianess.h"
 
 namespace dtn

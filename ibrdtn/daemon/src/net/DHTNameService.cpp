@@ -19,8 +19,6 @@
  *
  */
 
-#include "config.h"
-
 #include "DHTNameService.h"
 #include "ibrcommon/net/vsocket.h"
 #include "core/EventDispatcher.h"

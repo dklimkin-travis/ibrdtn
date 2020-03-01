@@ -19,7 +19,6 @@
  *
  */
 
-#include <ibrdtn/ibrdtn.h>
 #include "SecurityFilter.h"
 
 #ifdef IBRDTN_SUPPORT_BSP

@@ -22,7 +22,6 @@
  *
  */
 
-#include "config.h"
 #include "streaming/BundleStream.h"
 #include <ibrdtn/api/Client.h>
 #include <ibrdtn/data/EID.h>

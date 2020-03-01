@@ -1,5 +1,3 @@
-file(WRITE config.h "/* cmake is used. */")
-
 set(ALL_TOOLS
   dtnconvert
   dtnping

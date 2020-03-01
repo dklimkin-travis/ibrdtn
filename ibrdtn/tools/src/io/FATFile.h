@@ -28,7 +28,6 @@
 #ifndef FATFILE_H_
 #define FATFILE_H_
 
-#include "config.h"
 #include <ibrcommon/data/File.h>
 #include <list>
 

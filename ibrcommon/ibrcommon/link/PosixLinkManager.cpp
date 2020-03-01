@@ -5,7 +5,6 @@
  *      Author: morgenro
  */
 
-#include "ibrcommon/config.h"
 #include "ibrcommon/link/PosixLinkManager.h"
 
 #include <string>

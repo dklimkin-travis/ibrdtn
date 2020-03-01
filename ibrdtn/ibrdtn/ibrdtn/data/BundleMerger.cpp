@@ -19,7 +19,6 @@
  *
  */
 
-#include "ibrdtn/config.h"
 #include "ibrdtn/data/BundleMerger.h"
 #include "ibrdtn/data/Block.h"
 #include "ibrdtn/data/PayloadBlock.h"

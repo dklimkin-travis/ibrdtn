@@ -19,7 +19,6 @@
  *
  */
 
-#include "config.h"
 #include "Configuration.h"
 #include "api/ApiServer.h"
 #include "core/EventDispatcher.h"

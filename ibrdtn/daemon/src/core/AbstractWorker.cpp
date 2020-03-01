@@ -19,7 +19,6 @@
  *
  */
 
-#include "config.h"
 #include "core/EventDispatcher.h"
 #include "core/AbstractWorker.h"
 #include "core/BundleCore.h"

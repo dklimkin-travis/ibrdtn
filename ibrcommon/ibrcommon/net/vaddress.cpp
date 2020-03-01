@@ -19,7 +19,6 @@
  *
  */
 
-#include "ibrcommon/config.h"
 #include "ibrcommon/net/vaddress.h"
 #include "ibrcommon/net/socket.h"
 

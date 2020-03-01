@@ -19,7 +19,6 @@
  *
  */
 
-#include "config.h"
 #include "ibrdtn/api/Client.h"
 #include "ibrcommon/net/socket.h"
 #include "ibrcommon/thread/Mutex.h"

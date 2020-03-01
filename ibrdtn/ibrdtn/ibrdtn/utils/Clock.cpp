@@ -19,7 +19,6 @@
  *
  */
 
-#include "ibrdtn/config.h"
 #include "ibrdtn/utils/Clock.h"
 #include "ibrdtn/data/AgeBlock.h"
 #include "ibrdtn/data/MetaBundle.h"

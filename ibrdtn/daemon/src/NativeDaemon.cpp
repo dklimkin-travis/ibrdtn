@@ -19,7 +19,6 @@
  *
  */
 
-#include "config.h"
 #include "NativeDaemon.h"
 
 #include <ibrcommon/data/BLOB.h>
@@ -74,7 +73,6 @@
 #include "net/HTTPConvergenceLayer.h"
 #endif
 
-#include <ibrcommon/ibrcommon.h>
 #ifdef IBRCOMMON_SUPPORT_LOWPAN
 #include "net/LOWPANConvergenceLayer.h"
 #include "net/LOWPANDatagramService.h"
@@ -99,7 +97,6 @@
 #include "net/EMailConvergenceLayer.h"
 #endif
 
-#include <ibrdtn/ibrdtn.h>
 #ifdef IBRDTN_SUPPORT_BSP
 #include "security/SecurityManager.h"
 #include "security/SecurityKeyManager.h"

@@ -19,8 +19,6 @@
  *
  */
 
-#include "config.h"
-
 #include <ibrdtn/data/Serializer.h>
 #include <ibrdtn/data/PayloadBlock.h>
 #include <ibrdtn/data/Bundle.h>

@@ -19,7 +19,6 @@
  *
  */
 
-#include "config.h"
 #include "routing/NeighborRoutingExtension.h"
 #include "routing/QueueBundleEvent.h"
 #include "core/BundleCore.h"

@@ -20,7 +20,6 @@
  *
  */
 
-#include "config.h"
 #include "Configuration.h"
 #include "api/ExtendedApiHandler.h"
 #include "core/BundleEvent.h"
@@ -34,7 +33,6 @@
 #include "core/BundleCore.h"
 #include <ibrdtn/utils/Random.h>
 
-#include <ibrdtn/ibrdtn.h>
 #ifdef IBRDTN_SUPPORT_BSP
 #include "security/SecurityManager.h"
 #endif

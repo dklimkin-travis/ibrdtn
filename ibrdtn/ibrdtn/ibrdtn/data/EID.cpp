@@ -19,13 +19,11 @@
  *
  */
 
-#include "ibrdtn/config.h"
 #include "ibrdtn/data/EID.h"
 #include "ibrdtn/utils/Utils.h"
 #include <sstream>
 #include <iostream>
 
-#include <ibrcommon/ibrcommon.h>
 #ifdef IBRCOMMON_SUPPORT_SSL
 #include <ibrcommon/ssl/MD5Stream.h>
 #endif

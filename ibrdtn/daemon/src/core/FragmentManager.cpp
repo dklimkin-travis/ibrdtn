@@ -30,7 +30,6 @@
 #include <ibrcommon/Logger.h>
 #include <ibrcommon/thread/MutexLock.h>
 
-#include <ibrdtn/ibrdtn.h>
 #ifdef IBRDTN_SUPPORT_BSP
 #include "security/SecurityManager.h"
 #endif

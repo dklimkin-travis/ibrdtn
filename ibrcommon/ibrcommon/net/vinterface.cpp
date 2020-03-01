@@ -19,7 +19,6 @@
  *
  */
 
-#include "ibrcommon/config.h"
 #include "ibrcommon/net/vinterface.h"
 #include "ibrcommon/net/vsocket.h"
 

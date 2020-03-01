@@ -19,7 +19,6 @@
  *
  */
 
-#include "config.h"
 #include "Configuration.h"
 #include "core/EventDispatcher.h"
 #include "core/BundleCore.h"
@@ -49,8 +48,6 @@
 #include <iostream>
 #include <typeinfo>
 #include <stdint.h>
-
-#include <ibrdtn/ibrdtn.h>
 
 #ifdef IBRDTN_SUPPORT_BSP
 #include "security/SecurityManager.h"

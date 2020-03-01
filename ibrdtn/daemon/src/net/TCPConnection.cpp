@@ -19,7 +19,6 @@
  *
  */
 
-#include "config.h"
 #include "Configuration.h"
 #include "core/BundleCore.h"
 #include "core/BundleEvent.h"
