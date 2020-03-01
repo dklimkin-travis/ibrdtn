@@ -45,6 +45,12 @@ endif ()
 option(Lowpan "Build with lowpan support [default=OFF]" OFF)
 
 option(Openssl "Build with openssl support [default=OFF]" OFF)
+if (Openssl)
+  pkg_check_modules(OPENSSL REQUIRED libssl>=1.1.1d libcrypto)
+  add_definitions(-DHAVE_OPENSSL=1)
+  add_definitions(-DIBRCOMMON_SUPPORT_SSL=1)
+  message(STATUS "OpenSSL support enabled")
+endif()
 
 execute_process(
     COMMAND sh -c "git rev-parse --short HEAD | tr -d '\\n'"

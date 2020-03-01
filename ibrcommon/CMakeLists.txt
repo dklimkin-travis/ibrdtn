@@ -79,9 +79,6 @@ if (Openssl)
       ibrcommon/ssl/SHA256Stream.cpp
       ibrcommon/ssl/TLSStream.cpp
       ibrcommon/ssl/XORStream.cpp
-      ibrcommon/ssl/gcm/gcm.cpp
-      ibrcommon/ssl/gcm/gcm_aes.c
-      ibrcommon/ssl/gcm/gf128mul.cpp
   )
 endif()
 

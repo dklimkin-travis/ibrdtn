@@ -5,12 +5,6 @@ if (Lowpan)
   message(STATUS "6lowpan support enabled")
 endif()
 
-if (Openssl)
-  add_definitions(-DHAVE_OPENSSL=1)
-  add_definitions(-DIBRCOMMON_SUPPORT_SSL=1)
-  message(STATUS "OpenSSL support enabled")
-endif()
-
 option(DtnSec "Enable security extensions" ${Openssl})
 
 if(DtnSec)

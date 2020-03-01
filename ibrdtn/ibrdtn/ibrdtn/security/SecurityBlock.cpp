@@ -19,19 +19,15 @@
  *
  */
 
-#include "ibrdtn/config.h"
 #include "ibrdtn/security/SecurityBlock.h"
 #include "ibrdtn/security/MutableSerializer.h"
-#include "ibrdtn/data/Bundle.h"
-#include "ibrdtn/data/PayloadBlock.h"
-#include "ibrdtn/data/ExtensionBlock.h"
 
 #include <ibrcommon/Logger.h>
-#include <cstdlib>
 #include <openssl/rand.h>
 #include <openssl/err.h>
 #include <openssl/rsa.h>
-#include <vector>
+
+#include <cstring>
 
 #ifdef __DEVELOPMENT_ASSERTIONS__
 #include <cassert>
