@@ -52,15 +52,8 @@ execute_process(
 )
 message( STATUS "Release commit: " ${BUILD_NUMBER} )
 add_definitions(-DBUILD_NUMBER=\"${BUILD_NUMBER}\")
-
-set(CHANGELOG ${CMAKE_SOURCE_DIR}/ibrdtn/daemon/debian/changelog)
-execute_process(
-    COMMAND sh -c "cat ${CHANGELOG} | head -n 1 | sed 's/[a-z\\-]* (\\(.*\\)) .*$/\\1/' | tr -d '\\n'"
-    OUTPUT_VARIABLE VERSION
-)
-message( STATUS "Package version: " ${VERSION} )
-add_definitions(-DVERSION="${VERSION}")
-add_definitions(-DPACKAGE_VERSION="${VERSION}")
+add_definitions(-DPACKAGE_VERSION=\"${BUILD_NUMBER}\")
+add_definitions(-DVERSION=\"${BUILD_NUMBER}\")
 
 include(CheckIncludeFileCXX)
 CHECK_INCLUDE_FILE_CXX("regex.h" HAVE_REGEX_H)
